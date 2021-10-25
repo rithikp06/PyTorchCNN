@@ -26,7 +26,7 @@ transform = transforms.Compose(
 num_epochs = 10
 learning_rate = 0.00001
 train_CNN = False
-batch_size = 32
+batch_size = 10
 shuffle = True
 pin_memory = True
 num_workers = 1
@@ -62,7 +62,9 @@ def check_accuracy(loader, model):
     model.eval()
 
     with torch.no_grad():
+        print("Checking accuracy 2")
         for x, y in loader:
+            print("Checking accuracy")
             x = x.to(device=device)
             y = y.to(device=device)
 
