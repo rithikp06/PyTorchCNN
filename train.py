@@ -1,13 +1,17 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+import torchvision
 import torchvision.transforms as transforms
+import torchvision.datasets as datasets
 from Model import CNN
-from Dataset import CatsAndDogsDataset
+from Dataset import MNISTDistilled
 from tqdm import tqdm
 
 
 device = ("cuda" if torch.cuda.is_available() else "cpu")
+
+mnist_testset = datasets.MNIST(root='./data', train=False, download=True, transform=None)
 
 transform = transforms.Compose(
         [
@@ -26,8 +30,11 @@ shuffle = True
 pin_memory = True
 num_workers = 1
 
-dataset = CatsAndDogsDataset("train","train_csv.csv",transform=transform)
-train_set, validation_set = torch.utils.data.random_split(dataset,[20000,5000])
+dataset = MNISTDistilled("distilled", "train_csv.csv",transform=transform)
+# train_set, validation_set = torch.utils.data.random_split(dataset,[20000,5000])
+train_set = dataset
+validation_set = mnist_testset
+
 train_loader = DataLoader(dataset=train_set, shuffle=shuffle, batch_size=batch_size,num_workers=num_workers,pin_memory=pin_memory)
 validation_loader = DataLoader(dataset=validation_set, shuffle=shuffle, batch_size=batch_size,num_workers=num_workers, pin_memory=pin_memory)
 
@@ -62,9 +69,9 @@ def check_accuracy(loader, model):
             num_correct += (predictions == y).sum()
             num_samples += predictions.size(0)
     return f"{float(num_correct)/float(num_samples)*100:.2f}"
-        print(
-            f"Got {num_correct} / {num_samples} with accuracy {float(num_correct)/float(num_samples)*100:.2f}"
-        )
+    print(
+        f"Got {num_correct} / {num_samples} with accuracy {float(num_correct)/float(num_samples)*100:.2f}"
+    )
     model.train()
 
 def train():
