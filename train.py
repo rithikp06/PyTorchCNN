@@ -37,7 +37,7 @@ train_set = torch.load('tensor_step029_all.pt')
 train_set = torch.from_numpy(train_set)
 validation_set = mnist_testset
 train_set = mnist_testset
-validation_set = dataset
+# validation_set = dataset
 
 train_loader = DataLoader(dataset=train_set, shuffle=shuffle, batch_size=batch_size,num_workers=num_workers,pin_memory=pin_memory)
 validation_loader = DataLoader(dataset=validation_set, shuffle=shuffle, batch_size=batch_size,num_workers=num_workers, pin_memory=pin_memory)
