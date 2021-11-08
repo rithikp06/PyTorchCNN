@@ -33,8 +33,10 @@ num_workers = 1
 
 dataset = MNISTDistilled("distilled", "train_csv.csv",transform=transform)
 # train_set, validation_set = torch.utils.data.random_split(dataset,[20000,5000])
-train_set = dataset
-# validation_set = mnist_testset
+train_set = torch.load('tensor_step029_all.pt')
+train_set = torch.from_numpy(train_set)
+validation_set = mnist_testset
+train_set = mnist_testset
 validation_set = dataset
 
 train_loader = DataLoader(dataset=train_set, shuffle=shuffle, batch_size=batch_size,num_workers=num_workers,pin_memory=pin_memory)
